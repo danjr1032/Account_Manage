@@ -8,9 +8,10 @@ const {
   totalExpenditure,
 } = require('../controller/expend.controller');
 
-router.post('/add', addCustomerExpenditure); // POST request to add a customer expenditure
-router.put('/update/:id', updateCustomerExpenditure); // PUT request to update a customer expenditure by ID
-router.get('/getCustomerExpend', getCustomerExpenditure); // GET request to retrieve all customer expenditures
+router.post('/add', addCustomerExpenditure); 
+router.put('/update/:id', updateCustomerExpenditure);
+router.get('/', getCustomerExpenditure); 
+router.get('/add/undo', getCustomerExpenditure); 
 router.get('/getTotalExpenditure', (req, res) => {
     res.json({totalExpenditure});
 });

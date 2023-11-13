@@ -1,23 +1,27 @@
 const express = require('express');
-const router = require('../new/routes/incomeRoute');
-const Expendrouter = require('../new/routes/expendRoute');
+const cors = require ('cors');
+const incomeRouter = require('../Acc Management/routes/incomeRoute');
+const Expendrouter = require('../Acc Management/routes/expendRoute');
+const {checkName, checkIncome} = require ('../Acc Management/middleware/Auth');
 
 const server = express();
 
-// Instead of using body-parser, you can use express.json() to parse JSON requests
+//configuration of cors
+const corsOptions = {
+    "origin": "http://localhost:5500",
+    "method": "POST, PATCH, PUT, DELETE",
+    "preflightContinue": false,
+    "optionSuccessStatus": 204
+};
+
+
 server.use(express.json());
+server.use(checkName);
+server.use(checkIncome);
 
-// Use your routers for handling routes
-server.use('/addCustomerIncome', router);
-server.use('/updateCustomerIncome', router);
-server.use('/getCustomerIncomes', router);
-server.use('/total', router);
+server.use('/', incomeRouter);
 
-server.use('/addCustomerExpenditure', Expendrouter);
-server.use('/updateCustomerExpenditure/:id', Expendrouter);
-server.use('/getCustomerExpenditure', Expendrouter);
-server.use('/total', Expendrouter);
-
+server.use('/', Expendrouter);
 
 const port = 5500;
 

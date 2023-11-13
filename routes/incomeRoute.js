@@ -1,17 +1,20 @@
 const express = require('express');
-const router = express.Router();
+const incomeRouter = express.Router();
+const cors = require('cors');
 
 const {
   addCustomerIncome,
   updateCustomerIncome,
   getCustomerIncomes,
-  totalIncome
+  totalIncome,
+  undo
 } = require('../controller/income.controller'); 
 
-router.post('/customerIncomes', addCustomerIncome); // POST request to add a customer income
-router.put('/customerIncomes/:id', updateCustomerIncome); // PUT request to update a customer income by ID
-router.get('/', getCustomerIncomes); // GET request to retrieve all customer incomes
-router.get('/getTotalIncome', (req, res) => { res.json({totalIncome});});
+incomeRouter.post('/customerIncomes', addCustomerIncome); 
+incomeRouter.put('/customerIncomes/:id', updateCustomerIncome); 
+incomeRouter.get('/', getCustomerIncomes); 
+incomeRouter.get('/customerIncomes/undo', undo); 
+incomeRouter.get('/getTotalIncome', (req, res) => { res.json({totalIncome});});
 
 
-module.exports = router;
+module.exports = incomeRouter;

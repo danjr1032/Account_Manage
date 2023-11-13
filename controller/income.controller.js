@@ -1,7 +1,11 @@
+const maxCapacity = 4;
 const customerIncomes = [];
 
 // Add a customer income
 exports.addCustomerIncome = (req, res) => {
+    if (customerIncomes.length >= maxCapacity) {
+        return res.status(403).send('Cannot add more income');
+    }
     const { name, income } = req.body;
 
     if (!name || !income) {
@@ -34,9 +38,25 @@ exports.updateCustomerIncome = (req, res) => {
     }
 };
 
-exports. totalIncome = customerIncomes.reduce((sum, income) => sum + income.income, 0);
+
+
+exports.undo = (req, res) => {
+    if (customerIncomes.length === 0) {
+      return res.status(404).send('Nothing to undo.');
+    }
+    // Remove the last operation
+    const lastOperation = customerIncomes.pop();
+    res.send(`Last operation ${lastOperation} reverted.`);
+  };
 
 // Get all customer incomes
 exports.getCustomerIncomes = (req, res) => {
     res.json(customerIncomes);
 };
+
+
+
+
+
+exports.totalIncome = customerIncomes.reduce((sum, income) => sum + income.income, 0);
+
